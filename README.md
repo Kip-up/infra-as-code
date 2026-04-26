@@ -1,4 +1,3 @@
-# Infrastructure as Code project 
-## using Ansible 
-####sunshine
+# Infrastructure as Code project using Ansible 
+#### sunshine
 
