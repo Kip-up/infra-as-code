@@ -1,0 +1,6 @@
+hostname: kipup
+username: kip
+
+ssh_key: "sshkey"
+
+remove_user: user

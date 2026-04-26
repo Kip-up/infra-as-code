@@ -1,0 +1,72 @@
+# --------------------
+# Adduser
+# --------------------
+
+name: Add user block
+  block:
+
+    - name: Create user
+      user:
+        name: "{{ username }}"
+        state: present
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Add SSH key
+      authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ ssh_key }}"
+
+    - name: Add sudoers entry
+      copy:
+        dest: "/etc/sudoers.d/{{ username }}"
+        content: "{{ username }} ALL=(ALL) NOPASSWD: ALL"
+        mode: '0440'
+
+# --------------------
+# HOSTNAME
+# --------------------
+- name: Set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: Fix /etc/hosts entry
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1'
+    line: "127.0.1.1 {{ hostname }}"
+
+# --------------------
+# FIREWALL (UFW)
+# --------------------
+- name: Install UFW
+  apt:
+    name: ufw
+    state: present
+
+- name: Default deny incoming
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+
+- name: Allow outgoing traffic
+  ufw:
+    direction: outgoing
+    policy: allow
+
+- name: Allow SSH
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+# --------------------
+# REMOVE USER blanc
+# --------------------
+- name: Remove user blanc
+  user:
+    name: "{{ remove_user }}"
+    state: absent
+    remove: yes
