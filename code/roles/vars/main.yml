@@ -5,3 +5,4 @@ required_packages:
   - apt-transport-https
   - gnupg
   - openjdk-17-jre-headless
+

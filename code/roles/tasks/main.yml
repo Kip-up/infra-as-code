@@ -1,6 +1,4 @@
-# ---------------------------
 # uptodate
-# ---------------------------
 - name: Update and upgrade system packages
   apt:
     update_cache: yes
@@ -21,9 +19,7 @@
     state: directory
     mode: "0755"
 
-# -------------------------
 # MongoDB 8.0 Repo
-# -------------------------
 - name: Download MongoDB GPG key
   get_url:
     url: https://www.mongodb.org/static/pgp/server-8.0.asc
@@ -48,9 +44,8 @@
       Signed-By: /etc/apt/keyrings/mongodb-server-8.0.gpg
       Enabled: true
 
-# -------------------------
 # UniFi Repo
-# -------------------------
+
 - name: Download UniFi GPG key
   get_url:
     url: https://dl.ui.com/unifi/unifi-repo.gpg
@@ -70,9 +65,7 @@
       Signed-By: /etc/apt/keyrings/unifi-repo.gpg
       Enabled: true
 
-# -------------------------
 # Install packages
-# -------------------------
 - name: Update apt cache after adding repos
   apt:
     update_cache: yes
